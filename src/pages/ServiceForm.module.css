@@ -1,0 +1,246 @@
+.page { padding-bottom: 40px; }
+
+/* Hero */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 20px 20px;
+  gap: 8px;
+  text-align: center;
+}
+
+.heroIcon {
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.heroTitle {
+  font-family: var(--font-brand);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.heroSub {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Form */
+.form {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.input, .textarea {
+  width: 100%;
+  border: 1.5px solid var(--border-md);
+  border-radius: var(--radius-md);
+  padding: 13px 14px;
+  font-size: 15px;
+  font-family: var(--font-ui);
+  color: var(--text-primary);
+  background: var(--surface);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  -webkit-appearance: none;
+}
+.input:focus, .textarea:focus {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(26, 26, 46, 0.08);
+}
+.inputError { border-color: var(--red) !important; }
+.textarea { resize: none; line-height: 1.5; }
+
+.errMsg {
+  font-size: 12px;
+  color: var(--red);
+  font-weight: 500;
+}
+
+/* Description hint */
+.descHint {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  line-height: 1.5;
+}
+
+.optionalTag {
+  margin-left: 6px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  padding: 1px 7px;
+}
+
+/* GPS */
+.gpsBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  border-radius: var(--radius-md);
+  border: 1.5px dashed var(--border-md);
+  background: var(--bg);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blue);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  width: 100%;
+  transition: all 0.15s;
+}
+.gpsBtn:disabled {
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+}
+.gpsBtn:not(:disabled):active {
+  background: var(--blue-bg);
+  border-color: var(--blue);
+}
+
+.gpsSuccess {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: var(--green-bg);
+  border: 1.5px solid var(--green);
+}
+.gpsSuccessText { font-size: 13px; font-weight: 600; color: var(--green-text); }
+.gpsCoords      { font-size: 11px; color: var(--green); font-weight: 400; margin-top: 2px; }
+
+.gpsHint {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+/* Submit */
+.submitBtn {
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-brand);
+  letter-spacing: 0.02em;
+  transition: opacity 0.15s, transform 0.15s;
+  margin-top: 6px;
+}
+.submitBtn:disabled { opacity: 0.55; cursor: not-allowed; }
+.submitBtn:not(:disabled):active { opacity: 0.85; transform: scale(0.98); }
+
+.footerNote {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  padding: 0 10px;
+  line-height: 1.6;
+}
+
+/* Success screen */
+.successWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px 40px;
+  gap: 12px;
+  text-align: center;
+  animation: fadeIn 0.35s ease;
+}
+
+.successIcon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.successTitle {
+  font-family: var(--font-brand);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.successSub {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 280px;
+}
+
+.successCard {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 8px;
+}
+
+.successRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.successRow:last-child { border-bottom: none; }
+
+.successLabel { font-size: 12px; color: var(--text-tertiary); font-weight: 500; }
+.successValue { font-size: 13px; color: var(--text-primary); font-weight: 500; text-align: right; max-width: 200px; }
+
+.newReqBtn {
+  margin-top: 10px;
+  height: 46px;
+  width: 100%;
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  border: 1px solid var(--border-md);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: var(--font-ui);
+}

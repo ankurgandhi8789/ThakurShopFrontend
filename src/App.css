@@ -1,0 +1,38 @@
+.shell {
+  min-height: 100svh;
+  background: #e8e9ec;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.phoneFrame {
+  width: 100%;
+  max-width: 430px;
+  background: var(--bg);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.main {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 500px) {
+  .shell {
+    padding: 24px 0;
+    min-height: 100svh;
+  }
+  .phoneFrame {
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.1);
+    min-height: calc(100svh - 48px);
+    max-height: calc(100svh - 48px);
+  }
+}
