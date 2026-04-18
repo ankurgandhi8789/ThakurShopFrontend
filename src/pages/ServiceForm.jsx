@@ -126,18 +126,30 @@ export default function ServiceForm() {
           </span>
         </div>
 
-        {/* Name */}
+        {/* GPS */}
         <div className={styles.fieldGroup}>
-          <label className={styles.label}>Full Name *</label>
-          <input
-            className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
-            type="text"
-            placeholder="e.g. Rajesh Sharma"
-            value={form.name}
-            onChange={set('name')}
-            autoComplete="name"
-          />
-          {errors.name && <span className={styles.errMsg}>{errors.name}</span>}
+          <label className={styles.label}>
+            <LocationIcon size={12} stroke="var(--text-tertiary)" />
+            Auto-detect Location (GPS)
+          </label>
+          {location ? (
+            <div className={styles.gpsSuccess}>
+              <CheckIcon size={14} stroke="var(--green)" />
+              <div>
+                <div className={styles.gpsSuccessText}>Location captured!</div>
+                <div className={styles.gpsCoords}>
+                  {location.lat.toFixed(5)}, {location.lng.toFixed(5)}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <button type="button" className={styles.gpsBtn} onClick={getLocation} disabled={geoLoading}>
+              <LocationIcon size={16} stroke={geoLoading ? 'var(--text-tertiary)' : 'var(--blue)'} />
+              {geoLoading ? 'Detecting location…' : 'Detect My Location'}
+            </button>
+          )}
+          {geoError && <span className={styles.errMsg}>{geoError}</span>}
+          <span className={styles.gpsHint}>Helps our technician navigate to you faster</span>
         </div>
 
         {/* Phone */}
@@ -157,6 +169,20 @@ export default function ServiceForm() {
             autoComplete="tel"
           />
           {errors.phone && <span className={styles.errMsg}>{errors.phone}</span>}
+        </div>
+
+        {/* Name */}
+        <div className={styles.fieldGroup}>
+          <label className={styles.label}>Full Name *</label>
+          <input
+            className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
+            type="text"
+            placeholder="e.g. Rajesh Sharma"
+            value={form.name}
+            onChange={set('name')}
+            autoComplete="name"
+          />
+          {errors.name && <span className={styles.errMsg}>{errors.name}</span>}
         </div>
 
         {/* Address */}
@@ -190,32 +216,6 @@ export default function ServiceForm() {
           />
         </div>
 
-        {/* GPS */}
-        <div className={styles.fieldGroup}>
-          <label className={styles.label}>
-            <LocationIcon size={12} stroke="var(--text-tertiary)" />
-            Auto-detect Location (GPS)
-          </label>
-          {location ? (
-            <div className={styles.gpsSuccess}>
-              <CheckIcon size={14} stroke="var(--green)" />
-              <div>
-                <div className={styles.gpsSuccessText}>Location captured!</div>
-                <div className={styles.gpsCoords}>
-                  {location.lat.toFixed(5)}, {location.lng.toFixed(5)}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <button type="button" className={styles.gpsBtn} onClick={getLocation} disabled={geoLoading}>
-              <LocationIcon size={16} stroke={geoLoading ? 'var(--text-tertiary)' : 'var(--blue)'} />
-              {geoLoading ? 'Detecting location…' : 'Detect My Location'}
-            </button>
-          )}
-          {geoError && <span className={styles.errMsg}>{geoError}</span>}
-          <span className={styles.gpsHint}>Helps our technician navigate to you faster</span>
-        </div>
-
         <button type="submit" className={styles.submitBtn} disabled={submitting || geoLoading}>
           {geoLoading ? 'Detecting location…' : submitting ? 'Submitting…' : 'Submit Request'}
         </button>
@@ -223,6 +223,13 @@ export default function ServiceForm() {
         <p className={styles.footerNote}>
           We'll call you within 30 minutes to confirm your appointment.
         </p>
+
+        {/* Footer */}
+        <div className={styles.footer}>
+          <div className={styles.footerName}>Vinod Thakur</div>
+          <a href="tel:9268319213" className={styles.footerPhone}>📞 92683 19213</a>
+          <div className={styles.footerCopy}>© {new Date().getFullYear()} Thakur Electronics. All rights reserved.</div>
+        </div>
       </form>
     </div>
   );
