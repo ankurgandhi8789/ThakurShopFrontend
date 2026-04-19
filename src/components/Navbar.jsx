@@ -6,7 +6,7 @@ import { BoltIcon, BellIcon, UserIcon, XIcon } from './Icons.jsx';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
-  const { notifications, isConnected } = useApp();
+  const { notifications, isConnected, isOnline } = useApp();
   const { isAuthenticated, admin, logout } = useAuth();
   const navigate  = useNavigate();
   const location  = useLocation();
@@ -19,7 +19,19 @@ export default function Navbar() {
   };
 
   return (
-    <header className={styles.navbar}>
+    <>
+      {/* Offline banner */}
+      {!isOnline && (
+        <div style={{
+          background: '#1a1a1a', color: '#fff', textAlign: 'center',
+          padding: '8px 16px', fontSize: '12px', fontWeight: 600,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+        }}>
+          <span style={{ fontSize: 14 }}>📵</span>
+          No internet connection — please check your network
+        </div>
+      )}
+      <header className={styles.navbar}>
       <button className={styles.brand} onClick={() => navigate(isAdmin ? '/admin' : '/')}>
         <div className={styles.brandIcon}>
           <BoltIcon size={16} stroke="#fff" sw={2.5} />
@@ -84,5 +96,6 @@ export default function Navbar() {
         )}
       </div>
     </header>
+    </>
   );
 }

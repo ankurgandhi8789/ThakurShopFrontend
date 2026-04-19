@@ -28,6 +28,7 @@ export default function AdminDashboard() {
     filteredRequests,
     stats,
     loading,
+    fetchError,
     activeTab, setActiveTab,
     searchQuery, setSearchQuery,
     refetch,
@@ -113,6 +114,18 @@ export default function AdminDashboard() {
           <div className={styles.emptyState}>
             <div className={styles.spinner} />
             <p>Loading requests…</p>
+          </div>
+        ) : fetchError ? (
+          <div className={styles.emptyState}>
+            <div className={styles.emptyIcon}>📡</div>
+            <p className={styles.emptyTitle}>Connection problem</p>
+            <p className={styles.emptySub}>Could not load requests. Retrying automatically…</p>
+            <button
+              className={styles.retryBtn}
+              onClick={handleRefresh}
+            >
+              Retry Now
+            </button>
           </div>
         ) : filteredRequests.length === 0 ? (
           <div className={styles.emptyState}>

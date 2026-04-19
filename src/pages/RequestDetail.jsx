@@ -119,16 +119,24 @@ export default function RequestDetail() {
       {/* Location */}
       <div className={styles.card}>
         <div className={styles.cardTitle}>Location</div>
-        <div className={styles.locRow}>
-          <MapPinIcon size={15} stroke="var(--red)" />
-          <span className={styles.locText}>{request.address}</span>
-        </div>
+        {(request.houseNo || request.block) && (
+          <div className={styles.locRow}>
+            <HomeIcon size={14} stroke="var(--navy)" />
+            <span className={styles.locText} style={{ fontWeight: 700, color: 'var(--navy)' }}>
+              {[request.houseNo, request.block].filter(Boolean).join(', ')}
+            </span>
+          </div>
+        )}
         {request.landmark && (
           <div className={styles.locRow}>
             <HomeIcon size={14} stroke="var(--text-tertiary)" />
             <span className={styles.locTextSub}>{request.landmark}</span>
           </div>
         )}
+        <div className={styles.locRow}>
+          <MapPinIcon size={15} stroke="var(--red)" />
+          <span className={styles.locText}>{request.address}</span>
+        </div>
         {request.location?.lat != null ? (
           <div className={styles.locRow}>
             <MapIcon size={14} stroke="var(--purple)" />

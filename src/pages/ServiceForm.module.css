@@ -48,6 +48,12 @@
   gap: 7px;
 }
 
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
 .label {
   display: flex;
   align-items: center;

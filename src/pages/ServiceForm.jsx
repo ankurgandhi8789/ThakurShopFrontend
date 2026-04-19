@@ -9,10 +9,10 @@ import styles from './ServiceForm.module.css';
 
 export default function ServiceForm() {
   const { submitRequest, addNotification } = useApp();
-  const { location, geoError, geoLoading, getLocation, clearLocation } = useGeoLocation();
+  const { location, geoError, geoLoading, geoAddress, getLocation, clearLocation } = useGeoLocation();
 
   const [form, setForm] = useState({
-    name: '', phone: '', address: '', landmark: '', description: '',
+    name: '', phone: '', houseNo: '', block: '', landmark: '', address: '', description: '',
   });
   const [errors, setErrors]         = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -25,11 +25,14 @@ export default function ServiceForm() {
 
   const validate = () => {
     const errs = {};
-    if (!form.name.trim())    errs.name    = 'Name is required';
-    if (!form.phone.trim())   errs.phone   = 'Phone number is required';
+    if (!form.name.trim())        errs.name        = 'Name is required';
+    if (!form.phone.trim())       errs.phone       = 'Phone number is required';
     else if (!/^\d{10}$/.test(form.phone.replace(/\s/g, '')))
       errs.phone = 'Enter a valid 10-digit number';
-    if (!form.address.trim()) errs.address = 'Address is required';
+    if (!form.houseNo.trim())     errs.houseNo     = 'House / Flat No. is required';
+    if (!form.block.trim())       errs.block       = 'Block / Sector is required';
+    if (!form.landmark.trim())    errs.landmark    = 'Landmark is required';
+    if (!form.address.trim())     errs.address     = 'Address is required';
     if (!form.description.trim()) errs.description = 'Please describe the problem';
     return errs;
   };
@@ -64,6 +67,14 @@ export default function ServiceForm() {
             <span className={styles.successLabel}>Name</span>
             <span className={styles.successValue}>{form.name}</span>
           </div>
+          {(form.houseNo || form.block) && (
+            <div className={styles.successRow}>
+              <span className={styles.successLabel}>House / Block</span>
+              <span className={styles.successValue}>
+                {[form.houseNo, form.block].filter(Boolean).join(', ')}
+              </span>
+            </div>
+          )}
           {form.description && (
             <div className={styles.successRow}>
               <span className={styles.successLabel}>Problem</span>
@@ -84,7 +95,7 @@ export default function ServiceForm() {
           )}
         </div>
         <button className={styles.newReqBtn} onClick={() => {
-          setForm({ name: '', phone: '', address: '', landmark: '', description: '' });
+          setForm({ name: '', phone: '', houseNo: '', block: '', landmark: '', address: '', description: '' });
           setSubmitted(false);
         }}>
           Submit Another Request
@@ -144,7 +155,9 @@ export default function ServiceForm() {
               <button
                 type="button"
                 className={styles.gpsRetryBtn}
-                onClick={getLocation}
+                onClick={() => getLocation((addr) => {
+                  if (addr) setForm((f) => ({ ...f, address: addr }));
+                })}
               >
                 Re-detect
               </button>
@@ -160,7 +173,11 @@ export default function ServiceForm() {
             <button
               type="button"
               className={styles.gpsBtn}
-              onClick={getLocation}
+              onClick={() => getLocation((addr) => {
+                if (addr && !form.address.trim()) {
+                  setForm((f) => ({ ...f, address: addr }));
+                }
+              })}
               disabled={geoLoading}
             >
               <LocationIcon size={16} stroke={geoLoading ? 'var(--text-tertiary)' : 'var(--blue)'} />
@@ -170,7 +187,9 @@ export default function ServiceForm() {
           {geoError && (
             <div className={styles.gpsErrorBox}>
               <span className={styles.errMsg}>{geoError}</span>
-              <button type="button" className={styles.gpsRetryBtn} onClick={getLocation}>
+              <button type="button" className={styles.gpsRetryBtn} onClick={() => getLocation((addr) => {
+                if (addr && !form.address.trim()) setForm((f) => ({ ...f, address: addr }));
+              })}>
                 Try Again
               </button>
             </div>
@@ -216,6 +235,48 @@ export default function ServiceForm() {
           {errors.name && <span className={styles.errMsg}>{errors.name}</span>}
         </div>
 
+        {/* House No + Block — side by side */}
+        <div className={styles.fieldRow}>
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>House / Flat No. *</label>
+            <input
+              className={`${styles.input} ${errors.houseNo ? styles.inputError : ''}`}
+              type="text"
+              placeholder="e.g. 47-B, Flat 3"
+              value={form.houseNo}
+              onChange={set('houseNo')}
+            />
+            {errors.houseNo && <span className={styles.errMsg}>{errors.houseNo}</span>}
+          </div>
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>Block / Sector *</label>
+            <input
+              className={`${styles.input} ${errors.block ? styles.inputError : ''}`}
+              type="text"
+              placeholder="e.g. Block C, Sec 11"
+              value={form.block}
+              onChange={set('block')}
+            />
+            {errors.block && <span className={styles.errMsg}>{errors.block}</span>}
+          </div>
+        </div>
+
+        {/* Landmark */}
+        <div className={styles.fieldGroup}>
+          <label className={styles.label}>
+            <HomeIcon size={12} stroke="var(--text-tertiary)" />
+            Nearby Landmark *
+          </label>
+          <input
+            className={`${styles.input} ${errors.landmark ? styles.inputError : ''}`}
+            type="text"
+            placeholder="e.g. Near Metro Gate 2, Opp. School"
+            value={form.landmark}
+            onChange={set('landmark')}
+          />
+          {errors.landmark && <span className={styles.errMsg}>{errors.landmark}</span>}
+        </div>
+
         {/* Address */}
         <div className={styles.fieldGroup}>
           <label className={styles.label}>
@@ -224,27 +285,17 @@ export default function ServiceForm() {
           </label>
           <textarea
             className={`${styles.textarea} ${errors.address ? styles.inputError : ''}`}
-            placeholder="House/Flat no., Street, Area, City"
+            placeholder="Colony, Street, Area, City"
             value={form.address}
             onChange={set('address')}
             rows={3}
           />
           {errors.address && <span className={styles.errMsg}>{errors.address}</span>}
-        </div>
-
-        {/* Landmark */}
-        <div className={styles.fieldGroup}>
-          <label className={styles.label}>
-            <HomeIcon size={12} stroke="var(--text-tertiary)" />
-            Nearby Landmark
-          </label>
-          <input
-            className={styles.input}
-            type="text"
-            placeholder="e.g. Near Metro Gate 2, Opp. School"
-            value={form.landmark}
-            onChange={set('landmark')}
-          />
+          {geoAddress && form.address === geoAddress && (
+            <span className={styles.gpsHint} style={{ color: 'var(--green)', fontWeight: 500 }}>
+              ✓ Auto-filled from GPS — you can edit if needed
+            </span>
+          )}
         </div>
 
         <button type="submit" className={styles.submitBtn} disabled={submitting || geoLoading}>

@@ -184,6 +184,20 @@
 .emptyTitle { font-size: 15px; font-weight: 600; color: var(--text-primary); }
 .emptySub   { font-size: 13px; color: var(--text-tertiary); }
 
+.retryBtn {
+  margin-top: 8px;
+  height: 40px;
+  padding: 0 24px;
+  border-radius: var(--radius-md);
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-ui);
+}
+
 /* FAB */
 .fab {
   position: fixed;

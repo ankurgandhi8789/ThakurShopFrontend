@@ -79,6 +79,14 @@ export default function RequestCard({ request, index = 0 }) {
 
       {/* Address */}
       <div className={styles.addressBlock}>
+        {(request.houseNo || request.block) && (
+          <div className={styles.addrRow}>
+            <HomeIcon size={13} stroke="var(--navy)" />
+            <span className={styles.houseBlock}>
+              {[request.houseNo, request.block].filter(Boolean).join(', ')}
+            </span>
+          </div>
+        )}
         <div className={styles.addrRow}>
           <MapPinIcon size={13} stroke="var(--text-tertiary)" />
           <span className={styles.addrText}>{request.address}</span>
