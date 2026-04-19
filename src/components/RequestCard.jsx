@@ -119,12 +119,13 @@ export default function RequestCard({ request, index = 0 }) {
         </button>
 
         <button
-          className={styles.actionBtn}
-          onClick={() => openGoogleMaps(request.location, request.address, setMapLoading)}
-          disabled={mapLoading}
+          className={`${styles.actionBtn} ${!request.location?.lat ? styles.actionBtnDisabled : ''}`}
+          onClick={() => request.location?.lat && openGoogleMaps(request.location, request.address, setMapLoading)}
+          disabled={!request.location?.lat}
+          title={!request.location?.lat ? 'User did not share location' : 'Open in Google Maps'}
         >
-          <div className={styles.actionIcon} style={{ background: 'var(--purple-bg)' }}>
-            {mapLoading ? <span className={styles.mapSpinner} /> : <MapIcon size={14} stroke="var(--purple)" />}
+          <div className={styles.actionIcon} style={{ background: request.location?.lat ? 'var(--purple-bg)' : 'var(--bg)' }}>
+            {mapLoading ? <span className={styles.mapSpinner} /> : <MapIcon size={14} stroke={request.location?.lat ? 'var(--purple)' : 'var(--text-tertiary)'} />}
           </div>
           <span>{mapLoading ? 'Locating…' : 'Map'}</span>
         </button>

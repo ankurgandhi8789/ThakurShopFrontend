@@ -164,6 +164,11 @@
 }
 .actionBtn:last-child { border-right: none; }
 .actionBtn:active { background: var(--bg); }
+.actionBtn:disabled, .actionBtnDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.actionBtn:disabled:active, .actionBtnDisabled:active { background: transparent; }
 
 .actionIcon {
   width: 32px;

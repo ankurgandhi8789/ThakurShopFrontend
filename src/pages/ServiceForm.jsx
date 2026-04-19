@@ -9,7 +9,7 @@ import styles from './ServiceForm.module.css';
 
 export default function ServiceForm() {
   const { submitRequest, addNotification } = useApp();
-  const { location, geoError, geoLoading, getLocation } = useGeoLocation();
+  const { location, geoError, geoLoading, getLocation, clearLocation } = useGeoLocation();
 
   const [form, setForm] = useState({
     name: '', phone: '', address: '', landmark: '', description: '',
@@ -130,26 +130,57 @@ export default function ServiceForm() {
         <div className={styles.fieldGroup}>
           <label className={styles.label}>
             <LocationIcon size={12} stroke="var(--text-tertiary)" />
-            Auto-detect Location (GPS)
+            Detect My Location (GPS)
           </label>
           {location ? (
             <div className={styles.gpsSuccess}>
               <CheckIcon size={14} stroke="var(--green)" />
-              <div>
+              <div style={{ flex: 1 }}>
                 <div className={styles.gpsSuccessText}>Location captured!</div>
                 <div className={styles.gpsCoords}>
-                  {location.lat.toFixed(5)}, {location.lng.toFixed(5)}
+                  {location.lat.toFixed(6)}, {location.lng.toFixed(6)}
                 </div>
               </div>
+              <button
+                type="button"
+                className={styles.gpsRetryBtn}
+                onClick={getLocation}
+              >
+                Re-detect
+              </button>
+              <button
+                type="button"
+                className={styles.gpsUndoBtn}
+                onClick={clearLocation}
+              >
+                ✕ Remove
+              </button>
             </div>
           ) : (
-            <button type="button" className={styles.gpsBtn} onClick={getLocation} disabled={geoLoading}>
+            <button
+              type="button"
+              className={styles.gpsBtn}
+              onClick={getLocation}
+              disabled={geoLoading}
+            >
               <LocationIcon size={16} stroke={geoLoading ? 'var(--text-tertiary)' : 'var(--blue)'} />
-              {geoLoading ? 'Detecting location…' : 'Detect My Location'}
+              {geoLoading ? 'Detecting… (may take a few seconds)' : 'Detect My Location'}
             </button>
           )}
-          {geoError && <span className={styles.errMsg}>{geoError}</span>}
-          <span className={styles.gpsHint}>Helps our technician navigate to you faster</span>
+          {geoError && (
+            <div className={styles.gpsErrorBox}>
+              <span className={styles.errMsg}>{geoError}</span>
+              <button type="button" className={styles.gpsRetryBtn} onClick={getLocation}>
+                Try Again
+              </button>
+            </div>
+          )}
+          <span className={styles.gpsHint}>
+            Uses your device GPS for precise location — helps technician navigate directly to you
+          </span>
+          <span className={styles.gpsHint} style={{ color: 'var(--amber)', fontWeight: 600 }}>
+            📍 If you are at home, please turn on your location for accurate service
+          </span>
         </div>
 
         {/* Phone */}

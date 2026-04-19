@@ -137,7 +137,52 @@
   border: 1.5px solid var(--green);
 }
 .gpsSuccessText { font-size: 13px; font-weight: 600; color: var(--green-text); }
-.gpsCoords      { font-size: 11px; color: var(--green); font-weight: 400; margin-top: 2px; }
+.gpsCoords      { font-size: 11px; color: var(--green); font-weight: 500; margin-top: 2px; font-family: monospace; }
+
+.gpsRetryBtn {
+  flex-shrink: 0;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--green);
+  background: transparent;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green-text);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  white-space: nowrap;
+}
+
+.gpsUndoBtn {
+  flex-shrink: 0;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(229,62,62,0.4);
+  background: transparent;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--red);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  white-space: nowrap;
+}
+
+.gpsErrorBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--red-bg);
+  border: 1px solid rgba(229,62,62,0.2);
+  border-radius: var(--radius-md);
+}
+.gpsErrorBox .gpsRetryBtn {
+  border-color: var(--red);
+  color: var(--red-text);
+}
 
 .gpsHint {
   font-size: 11px;

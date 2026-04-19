@@ -129,22 +129,30 @@ export default function RequestDetail() {
             <span className={styles.locTextSub}>{request.landmark}</span>
           </div>
         )}
-        {request.location?.lat != null && (
+        {request.location?.lat != null ? (
           <div className={styles.locRow}>
             <MapIcon size={14} stroke="var(--purple)" />
             <span className={styles.locTextSub}>
               GPS: {request.location.lat.toFixed(5)}, {request.location.lng.toFixed(5)}
             </span>
           </div>
+        ) : (
+          <div className={styles.locRow}>
+            <MapIcon size={14} stroke="var(--red)" />
+            <span className={styles.locTextSub} style={{ color: 'var(--red)', fontWeight: 500 }}>
+              Location not shared by user
+            </span>
+          </div>
         )}
         <button
           className={styles.mapBtn}
           onClick={() => openGoogleMaps(request.location, request.address, setMapLoading)}
-          disabled={mapLoading}
+          disabled={!request.location?.lat || mapLoading}
+          title={!request.location?.lat ? 'User did not share location' : ''}
         >
           {mapLoading
             ? <><span className={styles.mapBtnSpinner} /> Getting your location…</>
-            : <><MapIcon size={16} stroke="#fff" /> Open in Google Maps</>
+            : <><MapIcon size={16} stroke="#fff" /> {request.location?.lat ? 'Open in Google Maps' : 'Location Not Available'}</>
           }
         </button>
       </div>
